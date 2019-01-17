@@ -17,7 +17,7 @@ public class Tree {
 	public static final double LEAVE_WIDTH = 800;
 	public static final double LEAVE_HEIGHT = 200;
 	public static final double TRUNK_WIDTH = 240;
-	public static final double TRUNK_HEIGHT = 390;
+	public static final double TRUNK_HEIGHT = 200;
 
 	private double x, y, z;
 	private Leaves[] leaves;

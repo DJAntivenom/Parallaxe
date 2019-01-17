@@ -17,7 +17,7 @@ import javax.swing.SwingWorker;
  * 
  * @author Dillon
  * 
- * @version 0.4
+ * @version 0.5
  *
  */
 public class ParallaxStarter implements Runnable {
@@ -32,6 +32,8 @@ public class ParallaxStarter implements Runnable {
 
 	private final JFrame frame;
 	private final JPanel panel;
+
+	private Road road;
 	private Tree[] tree;
 	private BufferedImage currFrame;
 
@@ -78,6 +80,8 @@ public class ParallaxStarter implements Runnable {
 		}
 		sortTrees();
 
+		road = new Road(50, 250, 10);
+
 		SwingWorker<Void, Void> renderThread = new SwingWorker<Void, Void>() {
 
 			@Override
@@ -97,7 +101,7 @@ public class ParallaxStarter implements Runnable {
 						timeSinceFrameChange = 0;
 						timeAtFrameChange = System.nanoTime();
 					}
-					
+
 					timeSinceFrameChange = System.nanoTime() - timeAtFrameChange;
 				}
 				return null;
@@ -111,7 +115,7 @@ public class ParallaxStarter implements Runnable {
 	 * Update the physics.
 	 * 
 	 * @param elapsedTime
-	 *            the time since last physics update in nanoseconds
+	 *                    the time since last physics update in nanoseconds
 	 * 
 	 * @since 0.4
 	 */
@@ -136,6 +140,8 @@ public class ParallaxStarter implements Runnable {
 		for (int i = 0; i < tree.length; i++) {
 			tree[i].render(g2d);
 		}
+
+		road.render(g2d);
 
 		g2d.drawString(String.format("FPS: %4.1f", getFPS()), 5, 20);
 	}
@@ -187,6 +193,28 @@ public class ParallaxStarter implements Runnable {
 	}
 
 	/**
+	 * Returns the width of a frame.
+	 * 
+	 * @return the width of a frame
+	 * 
+	 * @since 0.5
+	 */
+	public static int getWidth() {
+		return instance.currFrame.getWidth();
+	}
+	
+	/**
+	 * Returns the height of a frame.
+	 * 
+	 * @return the height of a frame
+	 * 
+	 * @since 0.5
+	 */
+	public static int getHeight() {
+		return instance.currFrame.getHeight();
+	}
+
+	/**
 	 * Returns an instance of this class.
 	 * 
 	 * @return an instance of this class
@@ -214,9 +242,9 @@ public class ParallaxStarter implements Runnable {
 	 * Swap to object in the tree array.
 	 * 
 	 * @param i
-	 *            the first index
+	 *          the first index
 	 * @param j
-	 *            the second index
+	 *          the second index
 	 * 
 	 * @since 0.3
 	 */
